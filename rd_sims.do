@@ -3,8 +3,8 @@
 cd "~/Dropbox/TwitterPosts/"
 
 set matsize 10000
-foreach N in 400 {
-	foreach b in 0.5 {
+foreach N in 400 1000 5000 {
+	foreach b in 0.5 1.0 {
 		clear all
 		forvalues bs = 1/1 {
 			clear
@@ -45,11 +45,11 @@ foreach N in 400 {
 			local p_val_robust = string(e(pv_rb), "%9.5f")
 			local p_wrong = string(`p_wrong', "%9.5f")
 * binned plot with a linear fit
-			*if `bs' == 100 | `bs' == 200 | `bs' == 300 {
+			if `bs' == 100 | `bs' == 200 | `bs' == 300 {
 				qui rdplot outcome x , p(1) ///
 				  graph_options(subtitle("BetaHat = `beta', p-value = `p_val_robust', wrong p-value = `p_wrong'"))
-				*graph export "plot_`N'_`treatment_label'_`bs'.pdf", replace
-			*	}
+				graph export "plot_`N'_`treatment_label'_`bs'.pdf", replace
+				}
 			scatter outcome x 
 			qui count if inrange(x, -.2, .2)
 			local num_obs = r(N)
